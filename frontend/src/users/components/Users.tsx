@@ -3,14 +3,13 @@ import { useFormContext } from 'react-hook-form'
 import { userSchema } from '../types/schema'
 import { Stack, TextField } from '@mui/material'
 import { RHFAutocomplete } from '../../components/RHFAutocomplete'
+import { useLanguages, useStates } from '../services/queries';
+import { RHFToggleButtonGroup } from '../../components/RHFToggleButtonGroup';
 
-const options = [
-    { label: 'Tunis', id: "1" },
-    { label: 'Nabeul', id: "2" },
-];
 
 export function Users() {
-
+    const statesQuery = useStates();
+    const languagesQuery = useLanguages();
     const { register, formState: { errors } } = useFormContext<userSchema>()
 
     return (
@@ -30,7 +29,11 @@ export function Users() {
             <RHFAutocomplete<userSchema>
                 name="states"
                 label="States"
-                options={options}
+                options={statesQuery.data}
+            />
+            <RHFToggleButtonGroup<userSchema>
+                name="languagesSpoken"
+                options={languagesQuery.data}
             />
         </Stack>
     )
