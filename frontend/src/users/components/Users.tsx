@@ -10,6 +10,7 @@ import { RHFCheckbox } from '../../components/RHFCheckbox';
 import { RHFDateTimePicker } from '../../components/RHFDateTimePicker';
 import { RHFDateRangePicker } from '../../components/RHFDateRangePicker';
 import { RHFSlider } from '../../components/RHFSlider';
+import { RHFSwitch } from '../../components/RHFSwitch';
 
 
 export function Users() {
@@ -60,6 +61,7 @@ export function Users() {
             <Typography>Former Employment Period:</Typography>
             <RHFDateRangePicker<userSchema> name="formerEmploymentPeriod" />
             <RHFSlider<userSchema> name="salaryRange" label="Salary Range" />
+            <RHFSwitch<userSchema> name="isTeacher" label="Are you a teacher?" />
 
         </Stack>
     )
