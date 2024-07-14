@@ -11,6 +11,7 @@ export const schema = z.object({
     languagesSpoken: z.array(z.string()),
     gender: z.string().min(1),
     skills: z.array(z.string()).max(2),
+    registrationDateAndTime: z.date(),
 
 })
 
@@ -23,4 +24,5 @@ export const defaultValues: userSchema = {
     languagesSpoken: [],
     gender: '',
     skills: [],
+    registrationDateAndTime: new Date(),
 };
