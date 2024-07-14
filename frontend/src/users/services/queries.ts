@@ -23,3 +23,13 @@ export function useLanguages() {
                 .then((res) => res.data),
     });
 }
+
+export function useGenders() {
+    return useQuery({
+        queryKey: ['genders'],
+        queryFn: () =>
+            axios
+                .get<Option[]>('http://localhost:8080/genders')
+                .then((res) => res.data),
+    });
+}
