@@ -33,3 +33,13 @@ export function useGenders() {
                 .then((res) => res.data),
     });
 }
+
+export function useSkills() {
+    return useQuery({
+        queryKey: ['skills'],
+        queryFn: () =>
+            axios
+                .get<Option[]>('http://localhost:8080/skills')
+                .then((res) => res.data),
+    });
+}

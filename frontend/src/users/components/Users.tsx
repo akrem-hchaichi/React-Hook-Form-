@@ -3,16 +3,17 @@ import { useFormContext } from 'react-hook-form'
 import { userSchema } from '../types/schema'
 import { Stack, TextField } from '@mui/material'
 import { RHFAutocomplete } from '../../components/RHFAutocomplete'
-import { useGenders, useLanguages, useStates } from '../services/queries';
+import { useGenders, useLanguages, useSkills, useStates } from '../services/queries';
 import { RHFToggleButtonGroup } from '../../components/RHFToggleButtonGroup';
 import { RHFRadioGroup } from '../../components/RHFRadioGroup';
+import { RHFCheckbox } from '../../components/RHFCheckbox';
 
 
 export function Users() {
     const statesQuery = useStates();
     const languagesQuery = useLanguages();
     const gendersQuery = useGenders();
-
+    const skillsQuery = useSkills();
 
     const { register, formState: { errors } } = useFormContext<userSchema>()
 
@@ -43,6 +44,11 @@ export function Users() {
                 name="gender"
                 options={gendersQuery.data}
                 label="Gender"
+            />
+            <RHFCheckbox<userSchema>
+                name="skills"
+                options={skillsQuery.data}
+                label="Skills"
             />
         </Stack>
     )
