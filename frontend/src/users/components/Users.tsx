@@ -9,6 +9,7 @@ import { RHFRadioGroup } from '../../components/RHFRadioGroup';
 import { RHFCheckbox } from '../../components/RHFCheckbox';
 import { RHFDateTimePicker } from '../../components/RHFDateTimePicker';
 import { RHFDateRangePicker } from '../../components/RHFDateRangePicker';
+import { RHFSlider } from '../../components/RHFSlider';
 
 
 export function Users() {
@@ -58,6 +59,8 @@ export function Users() {
             />
             <Typography>Former Employment Period:</Typography>
             <RHFDateRangePicker<userSchema> name="formerEmploymentPeriod" />
+            <RHFSlider<userSchema> name="salaryRange" label="Salary Range" />
+
         </Stack>
     )
 }

@@ -13,6 +13,7 @@ export const schema = z.object({
     skills: z.array(z.string()).max(2),
     registrationDateAndTime: z.date(),
     formerEmploymentPeriod: z.array(z.date()).min(2).max(2),
+    salaryRange: z.array(z.number()).max(2),
 
 })
 
@@ -27,5 +28,6 @@ export const defaultValues: userSchema = {
     skills: [],
     registrationDateAndTime: new Date(),
     formerEmploymentPeriod: [new Date(), new Date()],
+    salaryRange: [0, 2000],
 
 };
