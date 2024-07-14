@@ -12,6 +12,7 @@ export const schema = z.object({
     gender: z.string().min(1),
     skills: z.array(z.string()).max(2),
     registrationDateAndTime: z.date(),
+    formerEmploymentPeriod: z.array(z.date()).min(2).max(2),
 
 })
 
@@ -25,4 +26,6 @@ export const defaultValues: userSchema = {
     gender: '',
     skills: [],
     registrationDateAndTime: new Date(),
+    formerEmploymentPeriod: [new Date(), new Date()],
+
 };

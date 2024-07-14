@@ -1,13 +1,14 @@
 
 import { useFormContext } from 'react-hook-form'
 import { userSchema } from '../types/schema'
-import { Stack, TextField } from '@mui/material'
+import { Stack, TextField, Typography } from '@mui/material'
 import { RHFAutocomplete } from '../../components/RHFAutocomplete'
 import { useGenders, useLanguages, useSkills, useStates } from '../services/queries';
 import { RHFToggleButtonGroup } from '../../components/RHFToggleButtonGroup';
 import { RHFRadioGroup } from '../../components/RHFRadioGroup';
 import { RHFCheckbox } from '../../components/RHFCheckbox';
 import { RHFDateTimePicker } from '../../components/RHFDateTimePicker';
+import { RHFDateRangePicker } from '../../components/RHFDateRangePicker';
 
 
 export function Users() {
@@ -55,6 +56,8 @@ export function Users() {
                 name="registrationDateAndTime"
                 label="Registration Date & Time"
             />
+            <Typography>Former Employment Period:</Typography>
+            <RHFDateRangePicker<userSchema> name="formerEmploymentPeriod" />
         </Stack>
     )
 }
