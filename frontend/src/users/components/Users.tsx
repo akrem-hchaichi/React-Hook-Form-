@@ -11,6 +11,7 @@ import { RHFDateTimePicker } from '../../components/RHFDateTimePicker';
 import { RHFDateRangePicker } from '../../components/RHFDateRangePicker';
 import { RHFSlider } from '../../components/RHFSlider';
 import { RHFSwitch } from '../../components/RHFSwitch';
+import { RHFTextField } from '../../components/RHFTextField';
 
 
 export function Users() {
@@ -23,18 +24,8 @@ export function Users() {
 
     return (
         <Stack sx={{ gap: 2 }}>
-            <TextField
-                {...register('name')}
-                label="Name"
-                error={!!errors.name}
-                helperText={errors.name?.message}
-            />
-            <TextField
-                {...register('email')}
-                label="Email"
-                error={!!errors.email}
-                helperText={errors.email?.message}
-            />
+            <RHFTextField<userSchema> name="name" label="Name" />
+            <RHFTextField<userSchema> name="email" label="Email" />
             <RHFAutocomplete<userSchema>
                 name="states"
                 label="States"
