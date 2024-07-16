@@ -1,7 +1,7 @@
 
-import { useFormContext } from 'react-hook-form'
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 import { userSchema } from '../types/schema'
-import { Stack, TextField, Typography } from '@mui/material'
+import { Button, Stack, Typography } from '@mui/material'
 import { RHFAutocomplete } from '../../components/RHFAutocomplete'
 import { useGenders, useLanguages, useSkills, useStates } from '../services/queries';
 import { RHFToggleButtonGroup } from '../../components/RHFToggleButtonGroup';
@@ -12,6 +12,7 @@ import { RHFDateRangePicker } from '../../components/RHFDateRangePicker';
 import { RHFSlider } from '../../components/RHFSlider';
 import { RHFSwitch } from '../../components/RHFSwitch';
 import { RHFTextField } from '../../components/RHFTextField';
+import { Fragment, useEffect } from 'react';
 
 
 export function Users() {
@@ -20,7 +21,22 @@ export function Users() {
     const gendersQuery = useGenders();
     const skillsQuery = useSkills();
 
-    const { register, formState: { errors } } = useFormContext<userSchema>()
+    const { register, control, unregister, formState: { errors } } = useFormContext<userSchema>()
+
+    const isTeacher = useWatch({ control, name: 'isTeacher' });
+
+    const { append, fields, remove, replace } = useFieldArray({
+        control,
+        name: 'students',
+    });
+
+    useEffect(() => {
+        if (!isTeacher) {
+            replace([]);
+            unregister('students');
+        }
+    }, [isTeacher, replace, unregister]);
+
 
     return (
         <Stack sx={{ gap: 2 }}>
@@ -53,6 +69,30 @@ export function Users() {
             <RHFDateRangePicker<userSchema> name="formerEmploymentPeriod" />
             <RHFSlider<userSchema> name="salaryRange" label="Salary Range" />
             <RHFSwitch<userSchema> name="isTeacher" label="Are you a teacher?" />
+
+            {isTeacher && (
+                <Button onClick={() => append({ name: '' })} type="button">
+                    Add new student
+                </Button>
+            )}
+
+            {fields.map((field, index) => (
+                <Fragment key={field.id}>
+                    <RHFTextField<userSchema>
+                        name={`students.${index}.name`}
+                        label="Name"
+                    />
+                    <Button
+                        color="error"
+                        onClick={() => {
+                            remove(index);
+                        }}
+                        type="button"
+                    >
+                        Remove
+                    </Button>
+                </Fragment>
+            ))}
 
         </Stack>
     )
