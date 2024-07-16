@@ -1,5 +1,5 @@
 
-import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
+import { SubmitHandler, useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 import { defaultValues, userSchema } from '../types/schema'
 import { Button, Container, List, ListItem, ListItemButton, ListItemText, ListSubheader, Stack, Typography } from '@mui/material'
 import { RHFAutocomplete } from '../../components/RHFAutocomplete'
@@ -13,6 +13,7 @@ import { RHFSlider } from '../../components/RHFSlider';
 import { RHFSwitch } from '../../components/RHFSwitch';
 import { RHFTextField } from '../../components/RHFTextField';
 import { Fragment, useEffect } from 'react';
+import { useCreateUser, useEditUser } from '../services/mutations';
 
 
 export function Users() {
@@ -22,11 +23,12 @@ export function Users() {
     const skillsQuery = useSkills();
     const usersQuery = useUsers();
 
-    const { register, control, unregister, reset, setValue, formState: { errors } } = useFormContext<userSchema>()
+    const { handleSubmit, control, unregister, reset, setValue } = useFormContext<userSchema>()
 
     const id = useWatch({ control, name: 'id' });
     const isTeacher = useWatch({ control, name: 'isTeacher' });
     const userQuery = useUser(id);
+    const variant = useWatch({ control, name: 'variant' });
 
     const { append, fields, remove, replace } = useFieldArray({
         control,
@@ -39,6 +41,17 @@ export function Users() {
 
     const handleUserClick = (id: string) => {
         setValue('id', id);
+    };
+
+    const createUserMutation = useCreateUser();
+    const editUserMutation = useEditUser();
+
+    const onSubmit: SubmitHandler<userSchema> = (data) => {
+        if (variant === 'create') {
+            createUserMutation.mutate(data);
+        } else {
+            editUserMutation.mutate(data);
+        }
     };
 
     useEffect(() => {
@@ -55,7 +68,7 @@ export function Users() {
     }, [reset, userQuery.data]);
 
     return (
-        <Container maxWidth="sm" component="form" >
+        <Container maxWidth="sm" component="form" onSubmit={handleSubmit(onSubmit)}>
             <Stack sx={{ flexDirection: 'row', gap: 2 }}>
 
                 <List subheader={<ListSubheader>Users</ListSubheader>}>
@@ -126,8 +139,8 @@ export function Users() {
                     ))}
 
                     <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Button type="submit">
-                            New user
+                        <Button variant="contained" type="submit">
+                            {variant === 'create' ? 'New user' : 'Edit user'}
                         </Button>
                         <Button onClick={handleReset}>Reset</Button>
                     </Stack>
